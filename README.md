@@ -4,8 +4,8 @@
 
 Integrantes do Grupo:
 
-Eros Henrique Rodrigues Oliveira do Monte @VoidMan0__
-Walker Freitas dos Santos @W-F-S__
-João Pedro Lobato de Pinho @PJBHL__
+Eros Henrique Rodrigues Oliveira do Monte @VoidMan0 \
+Walker Freitas dos Santos @W-F-S \
+João Pedro Lobato de Pinho @PJBHL \
 
 Aplicativo para gestão financeira.
