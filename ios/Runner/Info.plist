@@ -5,11 +5,8 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-<<<<<<< HEAD
 	<string>Gestao Financeira</string>
-=======
-	<string>Trabalho Lab</string>
->>>>>>> main
+
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,11 +14,8 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-<<<<<<< HEAD
 	<string>gestao_financeira</string>
-=======
-	<string>trabalho_lab</string>
->>>>>>> main
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
