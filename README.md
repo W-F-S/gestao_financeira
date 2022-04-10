@@ -1,6 +1,6 @@
-# gestao_financeira
+# Gestão Financeira
 
-Projeto 4º Periodo CC - Laboratório de Dispositivos Móveis.
+## Projeto 4º Periodo CC - Laboratório de Dispositivos Móveis.
 
 Integrantes do Grupo:
 
