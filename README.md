@@ -1,11 +1,16 @@
-# Gestão Financeira
+# trabalho_lab
 
-## Projeto 4º Periodo CC - Laboratório de Dispositivos Móveis.
+A new Flutter project.
 
-Integrantes do Grupo:
+## Getting Started
 
-Eros Henrique Rodrigues Oliveira do Monte @VoidMan0 \
-Walker Freitas dos Santos @W-F-S \
-João Pedro Lobato de Pinho @PJBHL
+This project is a starting point for a Flutter application.
 
-Aplicativo para gestão financeira.
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
