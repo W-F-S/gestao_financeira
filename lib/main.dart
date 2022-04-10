@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestor_financeiro/Utils.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+      home: Scaffold (
+        drawer: const NavigationDrawerWidget(),
+        appBar: AppBar(),
         body: const MyStatelessWidget(),
       ),
     );
