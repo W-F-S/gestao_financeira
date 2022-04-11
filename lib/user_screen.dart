@@ -16,7 +16,7 @@ class User_Screen extends State<user_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.blue,
       ),
     );
   }
