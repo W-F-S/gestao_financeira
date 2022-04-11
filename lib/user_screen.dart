@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Função referente ao estado da segunda página.
@@ -18,6 +19,10 @@ class User_Screen extends State<user_screen> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
       ),
+      body: SizedBox.expand(
+        child:
+        Image.asset('images/user_page.png', fit: BoxFit.fitHeight, width: 100,),
+      )
     );
   }
 }

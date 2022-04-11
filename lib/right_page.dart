@@ -9,12 +9,8 @@ class RightScreen extends StatefulWidget {
 
 class _RightScreen extends State<RightScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
-    return const Text(
-      'pagina 1',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
-    );
+    return Image.asset('images/right_page.png', fit: BoxFit.fill,);
   }
 }

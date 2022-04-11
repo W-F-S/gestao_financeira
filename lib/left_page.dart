@@ -9,12 +9,8 @@ class LeftScreen extends StatefulWidget {
 
 class _LeftScreen extends State<LeftScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
-    return const Text(
-      'pagina -1',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
-    );
+    return Image.asset('images/left_page.png', fit: BoxFit.fill,);
   }
 }

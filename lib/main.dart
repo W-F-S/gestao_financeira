@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestor_financeiro/center_page.dart';
-import 'package:gestor_financeiro/left_page.dart';
-import 'package:gestor_financeiro/right_page.dart';
+import 'center_page.dart';
+import 'left_page.dart';
+import 'right_page.dart';
 import 'utils.dart';
 
 void main() {

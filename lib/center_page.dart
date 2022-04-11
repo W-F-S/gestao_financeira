@@ -10,11 +10,6 @@ class CenterScreen extends StatefulWidget {
 class _CenterScreen extends State<CenterScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'pagina 0',
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
-    );
+    return Image.asset('images/center_page.png', fit: BoxFit.fill,);
   }
 }
