@@ -23,10 +23,8 @@ class User_Screen extends State<user_screen> {
         localBancoDados,
         version: 1,
         onCreate: (db, dbVersaoRecente){
-          String sql = ''' CREATE TABLE IF NOT EXISTS DADOS_USER (Id INTEGER PRIMATY KEY AUTOINCREMENT, Nome, Email, Senha) 
-                           CREATE TABLE IF NOT EXISTS 
-                           CREATE TABLE  IF NOT EXISTS CAD_BANCOS (Id INTEGER PRIMARY KEY AUTOINCREMENT, Nome_banco, User_Id) 
-                          CREATE TABLE  IF NOT EXISTS TRANSACOES (Id INTEGER PRIMARY KEY AUTOINCREMENT, Valor, User_id, Banco_id)''';
+          String sql = '''CREATE TABLE IF NOT EXISTS DADOS_USER (Id INTEGER PRIMARY KEY AUTOINCREMENT, Nome, Email, Senha)
+                          CREATE TABLE  IF NOT EXISTS CAD_BANCOS (Id INTEGER PRIMARY KEY AUTOINCREMENT, Nome_banco, User_Id)                                  CREATE TABLE  IF NOT EXISTS TRANSACOES (Id INTEGER PRIMARY KEY AUTOINCREMENT, Valor, User_id, Banco_id)''';
           db.execute(sql);
         }
     );
@@ -36,8 +34,10 @@ class User_Screen extends State<user_screen> {
   }
   
   void _salvarDadosUser(String nome, String email, String senha) async {
+    int id2 =0;
     Database bd = await _recuperarBancoDados();
     Map<String, dynamic> dadosUsuario = {
+      "Id"   : id2,
       "Nome" : nome,
       "Email" : email,
       "Senha" : senha
@@ -46,20 +46,43 @@ class User_Screen extends State<user_screen> {
     print("Salvo: $id " );
   }
 
-/**  _salvarDadosBancos(String nome, int User_id) async {
+/**  void _salvarDadosBancos(String nome, int Id) async {
     Database bd = await _recuperarBancoDados();
     Map<String, dynamic> dadosBancos = {
       "Nome_banco" : nome,
-      "User_id" : email
+      "User_id" : Id
     };
     int id = await bd.insert("CAD_BANCOS", dadosUsuario);
     print("Salvo: $id " );
   }*/
   
+
+
+  _listarUsuarios() async{
+    Database bd = await _recuperarBancoDados();
+    String sql = "SELECT * FROM DADOS_USER";
+    //String sql = "SELECT * FROM usuarios WHERE idade=58";
+    //String sql = "SELECT * FROM usuarios WHERE idade >=30 AND idade <=58";
+    //String sql = "SELECT * FROM usuarios WHERE idade BETWEEN 18 AND 58";
+    //String sql = "SELECT * FROM usuarios WHERE nome='Maria Silva'";
+    List usuarios = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
+    for(var usu in usuarios){
+      print(" id: "+usu['id'].toString() +
+          " nome: "+usu['Nome']+
+          " email: "+usu['Email']+
+          " senha: "+usu['Senha']);
+    }
+  }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _controllernome = TextEditingController();
-    TextEditingController _controlleridade = TextEditingController();
+    TextEditingController _controllersenha = TextEditingController();
+    TextEditingController _controlleremail = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text("Banco de dados"),
@@ -95,13 +118,13 @@ class User_Screen extends State<user_screen> {
                 ElevatedButton(
                     child: Text("Salvar um usuário"),
                     onPressed: (){
-                      _salvarDados(_controllernome.text, _controlleremail.text, _controllersenha.text);
+                      _salvarDadosUser(_controllernome.text, _controlleremail.text, _controllersenha.text);
                     }
                 ),
                 ElevatedButton(
                     child: Text("Listar todos usuários"),
                     onPressed: (){
-       //               _listarUsuarios();
+                      _listarUsuarios();
                     }
                 ),
                 ElevatedButton(
