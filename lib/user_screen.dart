@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-/// Função referente ao estado da segunda página.
+
 class user_screen extends StatefulWidget {
   const user_screen({Key? key}) : super(key: key);
 
@@ -32,8 +32,21 @@ class User_Screen extends State<user_screen> {
     return bd;
     
   }
-  
+
+
   void _salvarDadosUser(String nome, String email, String senha) async {
+    Database bd = await _recuperarBancoDados();
+    Map<String, dynamic> dadosUsuario = {
+      "Nome" : nome,
+      "Email" : email,
+      "Senha" : senha
+    };
+    //   dadosUsuario.removeWhere((key, value) => value == null);                                           
+    int id = await bd.insert("DADOS_USER", dadosUsuario);
+    print("Salvo: $id " );
+  }
+  
+/**  void _salvarDadosUser(String nome, String email, String senha) async {
     int id2 =0;
     Database bd = await _recuperarBancoDados();
     Map<String, dynamic> dadosUsuario = {
@@ -42,9 +55,11 @@ class User_Screen extends State<user_screen> {
       "Email" : email,
       "Senha" : senha
     };
+    //   dadosUsuario.removeWhere((key, value) => value == null);                                           
     int id = await bd.insert("DADOS_USER", dadosUsuario);
     print("Salvo: $id " );
-  }
+  }*/
+
 
 /**  void _salvarDadosBancos(String nome, int Id) async {
     Database bd = await _recuperarBancoDados();
@@ -61,10 +76,6 @@ class User_Screen extends State<user_screen> {
   _listarUsuarios() async{
     Database bd = await _recuperarBancoDados();
     String sql = "SELECT * FROM DADOS_USER";
-    //String sql = "SELECT * FROM usuarios WHERE idade=58";
-    //String sql = "SELECT * FROM usuarios WHERE idade >=30 AND idade <=58";
-    //String sql = "SELECT * FROM usuarios WHERE idade BETWEEN 18 AND 58";
-    //String sql = "SELECT * FROM usuarios WHERE nome='Maria Silva'";
     List usuarios = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
     for(var usu in usuarios){
       print(" id: "+usu['id'].toString() +
@@ -127,7 +138,23 @@ class User_Screen extends State<user_screen> {
                       _listarUsuarios();
                     }
                 ),
+
                 ElevatedButton(
+                    child: Text("Listar todos bancos"),
+                    onPressed: (){
+                      _listarUsuarios();
+                    }
+                ),
+
+                ElevatedButton(
+                    child: Text("Listar todas transacoes"),
+                    onPressed: (){
+                      _listarUsuarios();
+                    }
+                ),
+
+                ElevatedButton(
+
                     child: Text("Listar um usuário"),
                     onPressed: (){
       //                _listarUmUsuario(2);
