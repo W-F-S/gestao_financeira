@@ -21,7 +21,7 @@ class User_Screen extends State<user_screen> {
         localBancoDados,
         version: 2,
         onCreate: (db, dbVersaoRecente){
-          String sql = "CREATE TABLE userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR) ";
+          String sql = "CREATE TABLE IF NOT EXIST userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR) ";
           db.execute(sql);
         }
     );
