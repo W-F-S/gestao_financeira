@@ -1,11 +1,9 @@
 // ignore_for_file: camel_case_types
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-
 
 class user_screen extends StatefulWidget {
   const user_screen({Key? key}) : super(key: key);
@@ -16,160 +14,91 @@ class user_screen extends StatefulWidget {
 
 /// Aqui é o corpo da tela user.
 class User_Screen extends State<user_screen> {
-  _recuperarBancoDados() async{
+  _recuperarBancoDados() async {
     final caminhoBancoDados = await getDatabasesPath();
-    final localBancoDados = join(caminhoBancoDados, "banco3.bd");
+    final localBancoDados = join(caminhoBancoDados, "database.bd");
     var bd = await openDatabase(
         localBancoDados,
-        version: 1,
+        version: 2,
         onCreate: (db, dbVersaoRecente){
-          String sql = '''CREATE TABLE IF NOT EXISTS DADOS_USER (Id INTEGER PRIMARY KEY AUTOINCREMENT, Nome, Email, Senha)
-                          CREATE TABLE  IF NOT EXISTS CAD_BANCOS (Id INTEGER PRIMARY KEY AUTOINCREMENT, Nome_banco, User_Id)                                  CREATE TABLE  IF NOT EXISTS TRANSACOES (Id INTEGER PRIMARY KEY AUTOINCREMENT, Valor, User_id, Banco_id)''';
+          String sql = "CREATE TABLE userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR) ";
           db.execute(sql);
         }
     );
-    print("aberto: " + bd.isOpen.toString() );
     return bd;
-    
+    //print("aberto: " + bd.isOpen.toString() );
   }
 
-
-  void _salvarDadosUser(String nome, String email, String senha) async {
+  _salvarDadosUser(String name, String email, String senha) async {
     Database bd = await _recuperarBancoDados();
     Map<String, dynamic> dadosUsuario = {
-      "Nome" : nome,
-      "Email" : email,
-      "Senha" : senha
+      "name" : name,
+      "email" : email,
+      "senha": senha
     };
-    //   dadosUsuario.removeWhere((key, value) => value == null);                                           
-    int id = await bd.insert("DADOS_USER", dadosUsuario);
+    int id = await bd.insert("userData", dadosUsuario);
     print("Salvo: $id " );
   }
-  
-/**  void _salvarDadosUser(String nome, String email, String senha) async {
-    int id2 =0;
-    Database bd = await _recuperarBancoDados();
-    Map<String, dynamic> dadosUsuario = {
-      "Id"   : id2,
-      "Nome" : nome,
-      "Email" : email,
-      "Senha" : senha
-    };
-    //   dadosUsuario.removeWhere((key, value) => value == null);                                           
-    int id = await bd.insert("DADOS_USER", dadosUsuario);
-    print("Salvo: $id " );
-  }*/
-
-
-/**  void _salvarDadosBancos(String nome, int Id) async {
-    Database bd = await _recuperarBancoDados();
-    Map<String, dynamic> dadosBancos = {
-      "Nome_banco" : nome,
-      "User_id" : Id
-    };
-    int id = await bd.insert("CAD_BANCOS", dadosUsuario);
-    print("Salvo: $id " );
-  }*/
-  
-
 
   _listarUsuarios() async{
     Database bd = await _recuperarBancoDados();
-    String sql = "SELECT * FROM DADOS_USER";
-    List usuarios = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
-    for(var usu in usuarios){
+    String sql = "SELECT * FROM userData";
+    List userData = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
+    for(var usu in userData){
       print(" id: "+usu['id'].toString() +
-          " nome: "+usu['Nome']+
-          " email: "+usu['Email']+
-          " senha: "+usu['Senha']);
+          " name: "+usu['name']+
+          " email: "+usu['email']+
+          " senha: "+usu['senha']);
     }
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     TextEditingController _controllernome = TextEditingController();
-    TextEditingController _controllersenha = TextEditingController();
     TextEditingController _controlleremail = TextEditingController();
+    TextEditingController _controllersenha = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Banco de dados"),
+        title: const Text("Banco de dados"),
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         width: double.infinity,
         child: Column(
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Digite o nome: ",
               ),
               controller: _controllernome,
             ),
             TextField(
-              decoration: InputDecoration(
-                labelText: "Digite a email: ",
+              decoration: const InputDecoration(
+                labelText: "Digite o email: ",
               ),
               controller: _controlleremail,
-            ), 
+            ),
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Digite a senha: ",
               ),
               controller: _controllersenha,
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton(
-                    child: Text("Salvar um usuário"),
+                    child: const Text("Salvar um usuário"),
                     onPressed: (){
                       _salvarDadosUser(_controllernome.text, _controlleremail.text, _controllersenha.text);
                     }
                 ),
                 ElevatedButton(
-                    child: Text("Listar todos usuários"),
+                    child: const Text("Listar todos usuários"),
                     onPressed: (){
                       _listarUsuarios();
-                    }
-                ),
-
-                ElevatedButton(
-                    child: Text("Listar todos bancos"),
-                    onPressed: (){
-                      _listarUsuarios();
-                    }
-                ),
-
-                ElevatedButton(
-                    child: Text("Listar todas transacoes"),
-                    onPressed: (){
-                      _listarUsuarios();
-                    }
-                ),
-
-                ElevatedButton(
-
-                    child: Text("Listar um usuário"),
-                    onPressed: (){
-      //                _listarUmUsuario(2);
-                    }
-                ),
-                ElevatedButton(
-                    child: Text("Atualizar um usuário"),
-                    onPressed: (){
-    //                  _atualizarUsuario(2);
-                    }
-                ),
-                ElevatedButton(
-                    child: Text("Excluir usuário"),
-                    onPressed: (){
-   //                   _excluirUsuario();
                     }
                 ),
               ],
@@ -179,7 +108,4 @@ class User_Screen extends State<user_screen> {
       ),
     );
   }
-  
-
-  
 }
