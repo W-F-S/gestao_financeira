@@ -79,7 +79,7 @@ class User_Screen extends State<user_screen> {
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
           " name: "+usu['name']+
-          " userId: "+usu['userId']);
+          " userId: "+usu['userId'].toString());
     }
   }
 
@@ -89,11 +89,23 @@ class User_Screen extends State<user_screen> {
     List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
-          " value: "+usu['value']+
-          " userId: "+usu['userId']+
-          " bancoId: "+usu['bancoId']+
+          " value: "+usu['value'].toString()+
+          " userId: "+usu['userId'].toString()+
+          " bancoId: "+usu['bancoId'].toString()+
           " type: "+usu['type']);
     }
+  }
+
+  Future<int> _login(String email, String senha) async{
+
+    Database bd = await _recuperarBancoDados();
+
+    List user = await bd.rawQuery("SELECT id FROM userData WHERE email="+email+" AND senha="+senha+";"); 
+    
+    if(user.isEmpty) return 0;
+
+    return user[0]['id'];
+    
   }
 
   @override
