@@ -64,8 +64,7 @@ class User_Screen extends State<user_screen> {
 
   _listarUsuarios() async{
     Database bd = await _recuperarBancoDados();
-    String sql = "SELECT * FROM userData";
-    List userData = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
+    List userData = await bd.rawQuery("SELECT * FROM userData"); //conseguimos escrever a query que quisermos
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
           " name: "+usu['name']+
