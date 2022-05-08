@@ -21,8 +21,10 @@ class User_Screen extends State<user_screen> {
         localBancoDados,
         version: 2,
         onCreate: (db, dbVersaoRecente){
-          String sql = "CREATE TABLE IF NOT EXIST userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR) ";
-          db.execute(sql);
+          db.execute("CREATE TABLE IF NOT EXISTS userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR); ");
+          db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, userId INTEGER NOT NULL,  FOREIGN KEY(userId) REFERENCES userData(id)); ");
+          db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, userId INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(userId) REFERENCES userData(id), FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
+          
         }
     );
     return bd;
@@ -36,8 +38,28 @@ class User_Screen extends State<user_screen> {
       "email" : email,
       "senha": senha
     };
-    int id = await bd.insert("userData", dadosUsuario);
-    print("Salvo: $id " );
+    bd.insert("userData", dadosUsuario);
+  }
+
+  _salvarDadosBanco(String name, int userId) async {
+    Database bd = await _recuperarBancoDados();
+    Map<String, dynamic> dadosBanco = {
+      "name" : name,
+      "userId" : userId,
+    };
+    bd.insert("cadBancos", dadosBanco);
+  }
+
+  _salvarDadosTransacao(int value, int userId, int bancoId, String type, bool despesa) async {
+    Database bd = await _recuperarBancoDados();
+    if(despesa) value *= -1;
+    Map<String, dynamic> dadosTransacao = {
+      "value" : value,
+      "userId" : userId,
+      "bancoId" : bancoId,
+      "type": type
+    };
+    bd.insert("userData", dadosTransacao);
   }
 
   _listarUsuarios() async{
@@ -49,6 +71,29 @@ class User_Screen extends State<user_screen> {
           " name: "+usu['name']+
           " email: "+usu['email']+
           " senha: "+usu['senha']);
+    }
+  }
+
+  _listarBancos() async{
+    Database bd = await _recuperarBancoDados();
+    List userData = await bd.rawQuery("SELECT * FROM cadBancos"); //conseguimos escrever a query que quisermos
+    for(var usu in userData){
+      print(" id: "+usu['id'].toString() +
+          " name: "+usu['name']+
+          " userId: "+usu['userId']);
+    }
+  }
+
+
+  _listarTransacoes() async{
+    Database bd = await _recuperarBancoDados();
+    List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
+    for(var usu in userData){
+      print(" id: "+usu['id'].toString() +
+          " value: "+usu['value']+
+          " userId: "+usu['userId']+
+          " bancoId: "+usu['bancoId']+
+          " type: "+usu['type']);
     }
   }
 
