@@ -4,7 +4,7 @@ import 'dart:math' as math;
 
 @immutable
 class ExampleExpandableFab extends StatelessWidget {
-  static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
+  static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
 
   const ExampleExpandableFab({Key? key}) : super(key: key);
 
@@ -228,7 +228,7 @@ class _ExpandingActionButton extends StatelessWidget {
           progress.value * maxDistance,
         );
         return Positioned(
-          right: 80.0 + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+            right: 160.0 + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
           bottom: -10.0 + offset.dy,
           child: Transform.rotate(
           //  angle: (40.0 - progress.value) * math.pi / 1,
