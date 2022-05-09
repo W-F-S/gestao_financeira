@@ -23,7 +23,7 @@ class ExampleExpandableFab extends StatelessWidget {
           ),
           ActionButton(
             onPressed: () => _showAction(context, 2),
-            icon: const Icon(Icons.videocam),
+            icon: const Icon(Icons.videocam, color: Colors.black),
           ),
         ],
     );

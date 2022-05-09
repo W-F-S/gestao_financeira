@@ -61,7 +61,7 @@ class HomePage extends State<MyApp> {
       drawer: const NavigationDrawerWidget(), // função que chama o drawer estilizado.
       appBar: const DefaultAppBar(), // função que chama a appBar estilizada.
       body: buildPageView(), // função que retorna o pageview e as páginas listadas
-      floatingActionButton: ExampleExpandableFab(),
+      floatingActionButton: const ExampleExpandableFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
