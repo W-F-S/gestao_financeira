@@ -12,7 +12,7 @@ recuperarBancoDados() async {
   final localBancoDados = join(caminhoBancoDados, "database.bd");
   var bd = await openDatabase(
       localBancoDados,
-      version: 2,
+      version: 3,
       onCreate: (db, dbVersaoRecente){
         db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR); ");
         db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
@@ -20,7 +20,7 @@ recuperarBancoDados() async {
   );
   return bd;
 }
-salvarDadosBanco(String name){
+salvarDadosBanco(String name) async{
   Database bd = await recuperarBancoDados();
   Map<String, dynamic> dadosBancos = {
     "name" : name,
@@ -93,7 +93,7 @@ Future<int> despesaDoBanco(int bancoId) async{
 }
 
 /// Metodo para recuperar despesas do usuario para todos os banco
-Future<int> despesaDoBanco() async{
+Future<int> despesaDeTodosOsBanco() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0';");
 
