@@ -22,49 +22,7 @@ class User_Screen extends State<user_screen> {
         title: const Text("Banco de dados"),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16),
         width: double.infinity,
-        child: Column(
-          children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(
-                labelText: "Digite o nome: ",
-              ),
-              controller: _controllernome,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                labelText: "Digite o email: ",
-              ),
-              controller: _controlleremail,
-            ),
-            TextField(
-              decoration: const InputDecoration(
-                labelText: "Digite a senha: ",
-              ),
-              controller: _controllersenha,
-            ),
-            const SizedBox(height: 20,),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                    child: const Text("Salvar um usuário"),
-                    onPressed: (){
-                      _salvarDadosUser(_controllernome.text, _controlleremail.text, _controllersenha.text);
-                    }
-                ),
-                ElevatedButton(
-                    child: const Text("Listar todos usuários"),
-                    onPressed: (){
-                      _listarUsuarios();
-                    }
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

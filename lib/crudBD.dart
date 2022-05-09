@@ -105,7 +105,7 @@ Future<int> receitaUsuario(int userId) async{
 }
 
 /// Metodo para recuperar despesas do usuario para um determinado banco
-Future<int> _despesaUsuarioBanco(int userId, int bancoId) async{
+Future<int> despesaUsuarioBanco(int userId, int bancoId) async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0' AND userId="+userId.toString()+"AND bancoId="+bancoId.toString()+";");
   //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
