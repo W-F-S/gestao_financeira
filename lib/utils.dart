@@ -4,7 +4,6 @@ import 'user_screen.dart';
 import 'right_page.dart';
 import 'left_page.dart';
 import 'center_page.dart';
-import 'botao_expandivel.dart';
 
 /// Função que estiliza o Drawer do menu principal,
 /// Estilizar cores e adicionar funcionalidades posteriormente.
@@ -80,7 +79,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(56);
 }
 
-
+/// Icons da bottomappbar padrao
 List<BottomNavigationBarItem> defaultBottomAppBar() {
   return [
     const BottomNavigationBarItem(
@@ -90,9 +89,9 @@ List<BottomNavigationBarItem> defaultBottomAppBar() {
       ),
       label: 'Funcionalidades',
     ),
-    const BottomNavigationBarItem(
+   const BottomNavigationBarItem(
       icon: Icon(Icons.add_circle_outlined),
-      label: 'Adicionar',
+      label: '',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.article),
@@ -105,9 +104,7 @@ List<BottomNavigationBarItem> defaultBottomAppBar() {
 // Classe para mudar de telas da aplicação com um swipe (esquerda, direita).
 class SwipePages extends StatelessWidget {
   SwipePages({Key? key}) : super(key: key);
-
   final controller = PageController(initialPage: 1);
-
   @override
   Widget build(BuildContext context) {
     return PageView(
