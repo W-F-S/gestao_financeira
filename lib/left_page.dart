@@ -9,8 +9,7 @@ class LeftScreen extends StatefulWidget {
 
 class _LeftScreen extends State<LeftScreen> {
   @override
-  @override
   Widget build(BuildContext context) {
-    return Image.asset('images/left_page.png', fit: BoxFit.fill,);
+    return Container();
   }
 }

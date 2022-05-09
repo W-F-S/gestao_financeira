@@ -99,30 +99,3 @@ List<BottomNavigationBarItem> defaultBottomAppBar() {
     ),
   ];
 }
-
-/*
-// Classe para mudar de telas da aplicação com um swipe (esquerda, direita).
-class SwipePages extends StatelessWidget {
-  SwipePages({Key? key}) : super(key: key);
-
-  final controller = PageController(initialPage: 1);
-
-  @override
-  Widget build(BuildContext context) {
-    return PageView(
-      controller: controller,
-      children: const <Widget>[
-        Center(
-          child: LeftScreen(),
-        ),
-        Center(
-          child: CenterScreen(),
-        ),
-        Center(
-          child: RightScreen(),
-        )
-      ],
-    );
-  }
-}
-*/
