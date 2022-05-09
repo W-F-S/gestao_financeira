@@ -3,7 +3,7 @@ import 'center_page.dart';
 import 'left_page.dart';
 import 'right_page.dart';
 import 'utils.dart';
-import 'botao_flutuante.dart';
+
 void main() {
   runApp(const MaterialApp(
     home: MyApp(),
@@ -16,7 +16,8 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  HomePage createState() => HomePage(); // Estado da primeira Página (Home Page do aplicativo).
+  HomePage createState() =>
+      HomePage(); // Estado da primeira Página (Home Page do aplicativo).
 }
 
 // Página Inicial, appbar, menu, user, bottombar.
@@ -47,7 +48,7 @@ class HomePage extends State<MyApp> {
       onPageChanged: (index) {
         pageChanged(index);
       },
-     children: const <Widget>[
+      children: const <Widget>[
         LeftScreen(),
         CenterScreen(),
         RightScreen(),
@@ -61,8 +62,6 @@ class HomePage extends State<MyApp> {
       drawer: const NavigationDrawerWidget(), // função que chama o drawer estilizado.
       appBar: const DefaultAppBar(), // função que chama a appBar estilizada.
       body: buildPageView(), // função que retorna o pageview e as páginas listadas
-      floatingActionButton: ExampleExpandableFab(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: bottomSelectedIndex,
@@ -71,7 +70,6 @@ class HomePage extends State<MyApp> {
         },
         items: defaultBottomAppBar(),
       ),
-      backgroundColor: Colors.green,
     );
   }
 }

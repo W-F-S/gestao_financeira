@@ -89,9 +89,9 @@ List<BottomNavigationBarItem> defaultBottomAppBar() {
       ),
       label: 'Funcionalidades',
     ),
-    const BottomNavigationBarItem(
+   const BottomNavigationBarItem(
       icon: Icon(Icons.add_circle_outlined),
-      label: 'Adicionar',
+      label: '',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.article),
