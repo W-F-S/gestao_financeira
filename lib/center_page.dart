@@ -36,7 +36,7 @@ class _CenterScreen extends State<CenterScreen> {
                                 ),
                               ),
                               child: SizedBox.expand(
-                                  child: ClipOval(
+                                  child: ClipRect(
                                       child: Material(
                                           color: Colors.white,
                                           child: InkWell(
@@ -71,7 +71,7 @@ class _CenterScreen extends State<CenterScreen> {
                             ),
                           ),
                             child: SizedBox.expand(
-                                child: ClipOval(
+                                child: ClipRect(
                                     child: Material(
                                         color: Colors.white,
                                         child: InkWell(
