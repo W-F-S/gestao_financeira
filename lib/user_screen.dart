@@ -21,6 +21,7 @@ class User_Screen extends State<user_screen> {
         localBancoDados,
         version: 2,
         onCreate: (db, dbVersaoRecente){
+
           db.execute("CREATE TABLE IF NOT EXISTS userData (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, email VARCHAR, senha VARCHAR); ");
           db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, userId INTEGER NOT NULL,  FOREIGN KEY(userId) REFERENCES userData(id)); ");
           db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, userId INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(userId) REFERENCES userData(id), FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
@@ -64,8 +65,7 @@ class User_Screen extends State<user_screen> {
 
   _listarUsuarios() async{
     Database bd = await _recuperarBancoDados();
-    String sql = "SELECT * FROM userData";
-    List userData = await bd.rawQuery(sql); //conseguimos escrever a query que quisermos
+    List userData = await bd.rawQuery("SELECT * FROM userData"); //conseguimos escrever a query que quisermos
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
           " name: "+usu['name']+
@@ -80,7 +80,7 @@ class User_Screen extends State<user_screen> {
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
           " name: "+usu['name']+
-          " userId: "+usu['userId']);
+          " userId: "+usu['userId'].toString());
     }
   }
 
@@ -90,11 +90,68 @@ class User_Screen extends State<user_screen> {
     List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
     for(var usu in userData){
       print(" id: "+usu['id'].toString() +
-          " value: "+usu['value']+
-          " userId: "+usu['userId']+
-          " bancoId: "+usu['bancoId']+
+          " value: "+usu['value'].toString()+
+          " userId: "+usu['userId'].toString()+
+          " bancoId: "+usu['bancoId'].toString()+
           " type: "+usu['type']);
     }
+  }
+
+  Future<int> _receitaUsuarioBanco(int userId, int bancoId) async{
+
+    Database bd = await _recuperarBancoDados();
+    List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type='0' AND userId="+userId.toString()+"AND bancoId="+bancoId.toString()+";");
+    //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
+  
+    return receita[0]['SUM(value)'];
+    //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
+    
+  }
+
+  Future<int> _receitaUsuario(int userId) async{
+
+    Database bd = await _recuperarBancoDados();
+    List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type='0' AND userId="+userId.toString()+";");
+    //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
+  
+    return receita[0]['SUM(value)'];
+    //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
+    
+  }
+
+  Future<int> _despesaUsuarioBanco(int userId, int bancoId) async{
+
+    Database bd = await _recuperarBancoDados();
+    List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0' AND userId="+userId.toString()+"AND bancoId="+bancoId.toString()+";");
+    //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
+  
+    return receita[0]['SUM(value)'];
+    //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
+    
+  }
+
+  Future<int> _despesaUsuario(int userId) async{
+
+    Database bd = await _recuperarBancoDados();
+    List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0' AND userId="+userId.toString()+";");
+    //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
+  
+    return receita[0]['SUM(value)'];
+    //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
+    
+  }
+
+
+  Future<int> _login(String email, String senha) async{
+
+    Database bd = await _recuperarBancoDados();
+
+    List user = await bd.rawQuery("SELECT id FROM userData WHERE email="+email+" AND senha="+senha+";"); 
+    
+    if(user.isEmpty) return 0;
+
+    return user[0]['id'];
+    
   }
 
   @override

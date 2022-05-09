@@ -16,8 +16,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  HomePage createState() =>
-      HomePage(); // Estado da primeira Página (Home Page do aplicativo).
+  HomePage createState() => HomePage(); // Estado da primeira Página (Home Page do aplicativo).
 }
 
 // Página Inicial, appbar, menu, user, bottombar.
@@ -72,6 +71,7 @@ class HomePage extends State<MyApp> {
         },
         items: defaultBottomAppBar(),
       ),
+      backgroundColor: Colors.green,
     );
   }
 }
