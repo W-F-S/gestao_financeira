@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-
-@immutable
 class ExampleExpandableFab extends StatelessWidget {
   static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
 
@@ -11,116 +9,53 @@ class ExampleExpandableFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpandableFab(
-        distance: 102.0,
-        children: [
-          ActionButton(
-            onPressed: () => _showAction(context, 0),
-            icon: const Icon(Icons.format_size, color: Colors.black),
-          ),
-          ActionButton(
-            onPressed: () => _showAction(context, 1),
-            icon: const Icon(Icons.insert_photo, color: Colors.black),
-          ),
-          ActionButton(
-            onPressed: () => _showAction(context, 2),
-            icon: const Icon(Icons.videocam, color: Colors.black),
-          ),
-        ],
+      distance: 110.0,
+      children: [
+        ActionButton(
+          onPressed: () => _showAction(context, 0),
+          icon: const Icon(Icons.format_size, color: Colors.black),
+        ),
+        ActionButton(
+          onPressed: () => _showAction(context, 1),
+          icon: const Icon(Icons.insert_photo, color: Colors.black),
+        ),
+        ActionButton(
+          onPressed: () => _showAction(context, 2),
+          icon: const Icon(Icons.videocam, color: Colors.black),
+        ),
+      ],
     );
   }
-
 
   void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-/**
-  void _showAction(BuildContext context, int index) {
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(_actionTitles[index]),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('CLOSE'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    content: Stack(
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Positioned(
-                          right: -40.0,
-                          top: -40.0,
-                          child: InkResponse(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: CircleAvatar(
-                              child: Icon(Icons.close),
-                              backgroundColor: Colors.red,
-                            ),
-                          ),
-                        ),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: TextFormField(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: TextFormField(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RaisedButton(
-                                  child: Text("Submitß"),
-                                  onPressed: () {
-                                    if (_formKey.currentState.validate()) {
-                                      _formKey.currentState.save();
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            insetPadding: const EdgeInsets.fromLTRB(30, 80, 30, 80),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Positioned(
+                  right: -20.0,
+                  top: -20.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
                     ),
-                  );
-                });
-          },
-*/
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+}
 
-@immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
     Key? key,
@@ -142,7 +77,7 @@ class _ExpandableFabState extends State<ExpandableFab>
   late final AnimationController _controller;
   late final Animation<double> _expandAnimation;
   bool _open = false;
-                     
+
   @override
   void initState() {
     super.initState();
@@ -181,7 +116,8 @@ class _ExpandableFabState extends State<ExpandableFab>
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Stack(
-        alignment: Alignment.bottomCenter, //controla a posicao do botao de expansao. 
+        alignment:
+            Alignment.bottomCenter, //controla a posicao do botao de expansao.
         clipBehavior: Clip.none,
         children: [
           _buildTapToCloseFab(),
@@ -191,21 +127,6 @@ class _ExpandableFabState extends State<ExpandableFab>
       ),
     );
   }
-
-/**
-    return SizedBox.expand(
-      
-      child: Stack(
-        alignment: Alignment.bottomCenter, //controla a posicao do botao de expansao. 
-        clipBehavior: Clip.none,
-        children: [
-          _buildTapToCloseFab(),
-          ..._buildExpandingActionButtons(),
-          _buildTapToOpenFab(),
-        ],
-      ),
-    );
-  }*/
 
   Widget _buildTapToCloseFab() {
     return SizedBox(
@@ -235,7 +156,9 @@ class _ExpandableFabState extends State<ExpandableFab>
     final children = <Widget>[];
     final count = widget.children.length;
     final step = 90.0 / (count - 1); //espaçamento entre os children
-    for (var i = 0, angleInDegrees = 45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
+    for (var i = 0,
+            angleInDegrees =
+                45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
         i < count;
         i++, angleInDegrees += step) {
       children.add(
@@ -277,7 +200,6 @@ class _ExpandableFabState extends State<ExpandableFab>
   }
 }
 
-@immutable
 class _ExpandingActionButton extends StatelessWidget {
   const _ExpandingActionButton({
     Key? key,
@@ -298,14 +220,15 @@ class _ExpandingActionButton extends StatelessWidget {
       animation: progress,
       builder: (context, child) {
         final offset = Offset.fromDirection(
-          directionInDegrees * (math.pi / 180.0), //controla o espaçamento entre botões (???)
+          directionInDegrees *
+              (math.pi / 180.0), //controla o espaçamento entre botões (???)
           progress.value * maxDistance,
         );
         return Positioned(
-            right: 155.0 + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
-          bottom: -10.0 + offset.dy, //controla a posição y dos filhos do botao de expansão, 
+          right: MediaQuery.of(context).size.width + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+          bottom: -10.0 + offset.dy, //controla a posição y dos filhos do botao de expansão,
           child: Transform.rotate(
-           angle: (1.0 - progress.value) * math.pi / 1, //controla o angulo dos icones dos childs 
+            angle: (1.0 - progress.value) * math.pi / 1, //controla o angulo dos icones dos childs
             child: child!,
           ),
         );
@@ -318,7 +241,6 @@ class _ExpandingActionButton extends StatelessWidget {
   }
 }
 
-@immutable
 class ActionButton extends StatelessWidget {
   const ActionButton({
     Key? key,
@@ -345,4 +267,3 @@ class ActionButton extends StatelessWidget {
     );
   }
 }
-
