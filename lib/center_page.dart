@@ -36,7 +36,7 @@ class _CenterScreen extends State<CenterScreen> {
                                 ),
                               ),
                               child: SizedBox.expand(
-                                  child: ClipRect(
+                                  child: ClipOval(
                                       child: Material(
                                           color: Colors.white,
                                           child: InkWell(
@@ -71,7 +71,7 @@ class _CenterScreen extends State<CenterScreen> {
                             ),
                           ),
                             child: SizedBox.expand(
-                                child: ClipRect(
+                                child: ClipOval(
                                     child: Material(
                                         color: Colors.white,
                                         child: InkWell(
@@ -114,9 +114,6 @@ class _CenterScreen extends State<CenterScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0)),
               ),
             ),
           )
