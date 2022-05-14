@@ -13,46 +13,74 @@ class ExampleExpandableFab extends StatelessWidget {
       children: [
         ActionButton(
           onPressed: () => _showAction(context, 0),
-          icon: const Icon(Icons.format_size, color: Colors.black),
+          icon: const Icon(Icons.attach_money,  color: Colors.black),
         ),
-        ActionButton(
+        /**  ActionButton(
           onPressed: () => _showAction(context, 1),
           icon: const Icon(Icons.insert_photo, color: Colors.black),
-        ),
+          ),*/
         ActionButton(
           onPressed: () => _showAction(context, 2),
-          icon: const Icon(Icons.videocam, color: Colors.black),
+          icon: const Icon(Icons.money_off, color: Colors.black),
+
         ),
       ],
     );
   }
 
-  void _showAction(BuildContext context, int index) {
+  void _showAction(BuildContext context, int index) {  //hormularios de insecao
+    final _formKey = GlobalKey<FormState>();
     showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            insetPadding: const EdgeInsets.fromLTRB(30, 80, 30, 80),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Positioned(
-                  right: -20.0,
-                  top: -20.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.fromLTRB(30, 80, 30, 80),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Positioned(
+                right: -20.0,
+                top: -20.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                           child: Icon(Icons.close),
+                           backgroundColor: Colors.red,
+                         ),
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                        child: Text("Submitß"),
+                        onPressed: () {
+                          print("teste123");
+                        }
+                      ),
+                    )
+                  ],
+                  ),
+
+                  ),
+                  ],
+                  ),
+                  );
+      });
   }
 }
 
@@ -73,7 +101,7 @@ class ExpandableFab extends StatefulWidget {
 }
 
 class _ExpandableFabState extends State<ExpandableFab>
-    with SingleTickerProviderStateMixin {
+with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _expandAnimation;
   bool _open = false;
@@ -117,7 +145,7 @@ class _ExpandableFabState extends State<ExpandableFab>
     return SizedBox.expand(
       child: Stack(
         alignment:
-            Alignment.bottomCenter, //controla a posicao do botao de expansao.
+        Alignment.bottomCenter, //controla a posicao do botao de expansao.
         clipBehavior: Clip.none,
         children: [
           _buildTapToCloseFab(),
@@ -157,10 +185,10 @@ class _ExpandableFabState extends State<ExpandableFab>
     final count = widget.children.length;
     final step = 90.0 / (count - 1); //espaçamento entre os children
     for (var i = 0,
-            angleInDegrees =
-                45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
-        i < count;
-        i++, angleInDegrees += step) {
+      angleInDegrees =
+      45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
+      i < count;
+      i++, angleInDegrees += step) {
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -196,7 +224,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           ),
         ),
       ),
-    );
+      );
   }
 }
 
@@ -221,11 +249,12 @@ class _ExpandingActionButton extends StatelessWidget {
       builder: (context, child) {
         final offset = Offset.fromDirection(
           directionInDegrees *
-              (math.pi / 180.0), //controla o espaçamento entre botões (???)
+          (math.pi / 180.0), //controla o espaçamento entre botões (???)
           progress.value * maxDistance,
         );
         return Positioned(
-          right: MediaQuery.of(context).size.width + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+          right: (MediaQuery.of(context).size.width / 2) - 24 + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+                                                                           //com esse offset.dx podemos controlar a posicao dos childs. coloque ele negativo e os childs vão inverter 
           bottom: -10.0 + offset.dy, //controla a posição y dos filhos do botao de expansão,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 1, //controla o angulo dos icones dos childs
@@ -234,10 +263,10 @@ class _ExpandingActionButton extends StatelessWidget {
         );
       },
       child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
-    );
+               opacity: progress,
+               child: child,
+             ),
+      );
   }
 }
 
