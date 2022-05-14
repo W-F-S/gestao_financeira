@@ -52,7 +52,7 @@ listarBancos() async{
 }
 
 /// Listar transações feitas no sistema *metodo apenas para testes*
-listarTransacoes() async{
+listartransacoes() async{
   Database bd = await recuperarBancoDados();
   List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
   for(var usu in userData){

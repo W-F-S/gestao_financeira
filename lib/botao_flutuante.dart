@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'crudBD.dart';
+import 'package:flutter/services.dart';
 
 class ExampleExpandableFab extends StatelessWidget {
   static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
@@ -12,7 +14,7 @@ class ExampleExpandableFab extends StatelessWidget {
       distance: 110.0,
       children: [
         ActionButton(
-          onPressed: () => _showAction(context, 0),
+          onPressed: () => _showAction(context, 0, false),
           icon: const Icon(Icons.attach_money,  color: Colors.black),
         ),
         /**  ActionButton(
@@ -20,15 +22,18 @@ class ExampleExpandableFab extends StatelessWidget {
           icon: const Icon(Icons.insert_photo, color: Colors.black),
           ),*/
         ActionButton(
-          onPressed: () => _showAction(context, 2),
+          onPressed: () => _showAction(context, 2, true),
           icon: const Icon(Icons.money_off, color: Colors.black),
-
         ),
       ],
     );
   }
 
-  void _showAction(BuildContext context, int index) {  //hormularios de insecao
+  //Método para o formulário de inserção no banco de dados
+  void _showAction(BuildContext context, int index, bool trans_type) {
+    TextEditingController valor = TextEditingController();   
+    TextEditingController tipo = TextEditingController();   
+    TextEditingController banco = TextEditingController();   
     final _formKey = GlobalKey<FormState>();
     showDialog(
       context: context,
@@ -38,7 +43,7 @@ class ExampleExpandableFab extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
-              Positioned(
+              Positioned( //controlando o botão de fechar do formulario
                 right: -20.0,
                 top: -20.0,
                 child: InkResponse(
@@ -58,18 +63,45 @@ class ExampleExpandableFab extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextFormField(),
+                      child: TextFormField(
+                        controller: valor,
+                        keyboardType: TextInputType.number,  //restringir o tipo de teclado do usuario: number, phone, text
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.attach_money),
+                          hintText: 'Valor',
+                        ),
+                         // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: TextFormField(),
+                      child: TextFormField(
+                        controller: tipo,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.article_outlined),
+                          hintText: 'Descrição',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: banco,
+                        keyboardType: TextInputType.number,  //restringir o tipo de teclado do usuario: number, phone, text
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.corporate_fare_outlined),
+                          hintText: 'Digite o código',
+                          labelText: 'Banco',
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
-                        child: Text("Submitß"),
+                        child: Text("Submit"),
                         onPressed: () {
-                          print("teste123");
+                          salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), tipo.text, trans_type);
+                //          listartransacoes();                     
                         }
                       ),
                     )
@@ -83,6 +115,7 @@ class ExampleExpandableFab extends StatelessWidget {
       });
   }
 }
+
 
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
