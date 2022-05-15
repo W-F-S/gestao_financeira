@@ -14,9 +14,6 @@ class user_screen extends StatefulWidget {
 class User_Screen extends State<user_screen> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controllernome = TextEditingController();
-    TextEditingController _controlleremail = TextEditingController();
-    TextEditingController _controllersenha = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Banco de dados"),
