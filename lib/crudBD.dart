@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 /// Metodo para criar o banco de dados e três tabelas.
 /// Tabela usuario -> nome, email e senha.
@@ -9,10 +7,10 @@ import 'package:path_provider/path_provider.dart';
 /// Tabela transações -> valor das transações, id usuario, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "database.bd");
+  final localBancoDados = join(caminhoBancoDados, "bancoD");
   var bd = await openDatabase(
       localBancoDados,
-      version: 3,
+      version: 4,
       onCreate: (db, dbVersaoRecente){
         db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR); ");
         db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
@@ -20,6 +18,7 @@ recuperarBancoDados() async {
   );
   return bd;
 }
+
 salvarDadosBanco(String name) async{
   Database bd = await recuperarBancoDados();
   Map<String, dynamic> dadosBancos = {
@@ -52,7 +51,7 @@ listarBancos() async{
 }
 
 /// Listar transações feitas no sistema *metodo apenas para testes*
-listarTransacoes() async{
+listartransacoes() async{
   Database bd = await recuperarBancoDados();
   List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
   for(var usu in userData){

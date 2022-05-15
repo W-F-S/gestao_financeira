@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'user_screen.dart';
-import 'right_page.dart';
-import 'left_page.dart';
-import 'center_page.dart';
 
 /// Função que estiliza o Drawer do menu principal,
 /// Estilizar cores e adicionar funcionalidades posteriormente.
@@ -89,7 +85,7 @@ List<BottomNavigationBarItem> defaultBottomAppBar() {
       ),
       label: 'Funcionalidades',
     ),
-   const BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(Icons.add_circle_outlined),
       label: '',
     ),
