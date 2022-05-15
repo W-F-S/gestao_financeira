@@ -3,7 +3,8 @@ import 'center_page.dart';
 import 'left_page.dart';
 import 'right_page.dart';
 import 'utils.dart';
-import 'botao_flutuante.dart';
+import 'add_instance_button.dart';
+
 void main() {
   runApp(const MaterialApp(
     home: MyApp(),

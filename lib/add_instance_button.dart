@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'crudBD.dart';
 
 class ExampleExpandableFab extends StatelessWidget {
   static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
@@ -12,22 +13,27 @@ class ExampleExpandableFab extends StatelessWidget {
       distance: 110.0,
       children: [
         ActionButton(
-          onPressed: () => _showAction(context, 0),
-          icon: const Icon(Icons.format_size, color: Colors.black),
+          onPressed: () => _showAction(context, 0, false),
+          icon: const Icon(Icons.attach_money, color: Colors.black),
         ),
         ActionButton(
-          onPressed: () => _showAction(context, 1),
+          onPressed: () => _showAction(context, 1, false),
           icon: const Icon(Icons.insert_photo, color: Colors.black),
         ),
         ActionButton(
-          onPressed: () => _showAction(context, 2),
-          icon: const Icon(Icons.videocam, color: Colors.black),
+          onPressed: () => _showAction(context, 2, true),
+          icon: const Icon(Icons.money_off, color: Colors.black),
         ),
       ],
     );
   }
 
-  void _showAction(BuildContext context, int index) {
+  //Método para o formulário de inserção no banco de dados
+  void _showAction(BuildContext context, int index, bool transType) {
+    TextEditingController valor = TextEditingController();
+    TextEditingController tipo = TextEditingController();
+    TextEditingController banco = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
     showDialog(
         context: context,
         builder: (context) {
@@ -37,6 +43,7 @@ class ExampleExpandableFab extends StatelessWidget {
               clipBehavior: Clip.none,
               children: <Widget>[
                 Positioned(
+                  //controlando o botão de fechar do formulario
                   right: -20.0,
                   top: -20.0,
                   child: InkResponse(
@@ -47,6 +54,61 @@ class ExampleExpandableFab extends StatelessWidget {
                       child: Icon(Icons.close),
                       backgroundColor: Colors.red,
                     ),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: valor,
+                          keyboardType: TextInputType
+                              .number, //restringir o tipo de teclado do usuario: number, phone, text
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.attach_money),
+                            hintText: 'Valor',
+                          ),
+                          // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          enabled: false,
+                          controller: tipo,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.article_outlined),
+                            hintText: 'Descrição',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: banco,
+                          keyboardType: TextInputType
+                              .number, //restringir o tipo de teclado do usuario: number, phone, text
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.corporate_fare_outlined),
+                            hintText: 'Digite o código',
+                            labelText: 'Banco',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                            child: const Text("Submit"),
+                            onPressed: () {
+                              salvarDadosTransacao(int.parse(valor.text),
+                                  int.parse(banco.text), tipo.text, transType);
+                              listartransacoes();
+                            }),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -225,10 +287,17 @@ class _ExpandingActionButton extends StatelessWidget {
           progress.value * maxDistance,
         );
         return Positioned(
-          right: MediaQuery.of(context).size.width + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
-          bottom: -10.0 + offset.dy, //controla a posição y dos filhos do botao de expansão,
+          right: (MediaQuery.of(context).size.width / 2) -
+              24 +
+              offset
+                  .dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+          //com esse offset.dx podemos controlar a posicao dos childs. coloque ele negativo e os childs vão inverter
+          bottom: -10.0 +
+              offset.dy, //controla a posição y dos filhos do botao de expansão,
           child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 1, //controla o angulo dos icones dos childs
+            angle: (1.0 - progress.value) *
+                math.pi /
+                1, //controla o angulo dos icones dos childs
             child: child!,
           ),
         );
