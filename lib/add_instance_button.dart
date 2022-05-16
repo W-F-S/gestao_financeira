@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'crudBD.dart';
 
 class ExampleExpandableFab extends StatelessWidget {
-
   const ExampleExpandableFab({Key? key}) : super(key: key);
 
   @override
@@ -12,15 +11,15 @@ class ExampleExpandableFab extends StatelessWidget {
       distance: 110.0,
       children: [
         ActionButton(
-          onPressed: () => _showAction(context, 0, false),
+          onPressed: () => _receita(context, 0),
           icon: const Icon(Icons.attach_money, color: Colors.black),
         ),
         ActionButton(
-          onPressed: () => _showAction(context, 1, false),
-          icon: const Icon(Icons.insert_photo, color: Colors.black),
+          onPressed: () => _banco(context, 1),
+          icon: const Icon(Icons.corporate_fare_outlined, color: Colors.black),
         ),
         ActionButton(
-          onPressed: () => _showAction(context, 2, true),
+          onPressed: () => _despesa(context, 2),
           icon: const Icon(Icons.money_off, color: Colors.black),
         ),
       ],
@@ -28,7 +27,156 @@ class ExampleExpandableFab extends StatelessWidget {
   }
 
   //Método para o formulário de inserção no banco de dados
-  void _showAction(BuildContext context, int index, bool transType) {
+  void _receita(BuildContext context, int index) {
+    TextEditingController valor = TextEditingController();
+    TextEditingController banco = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: new Row(
+            children: [
+              new Container(
+                child: new Text("Receita"),
+              ),
+              Spacer(),
+              new Container(
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: valor,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.attach_money),
+                        hintText: 'Valor',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: banco,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.corporate_fare_outlined),
+                        hintText: 'Digite o código',
+                        labelText: 'Banco',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                        child: const Text("Submit"),
+                        onPressed: () async {
+                          await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), "", false);
+                          print("------ Listando Transacoes ------");
+                          await listartransacoes();
+                          print("------ Receita de Todos os Bancos ------");
+                          print(await receitaDeTodosOsBancos());
+                          print("------ Despesa de Todos os Bancos ------");
+                          print(await despesaDeTodosOsBancos());
+                          //print("\n\nSaldo Total:\n");
+                          //int walker = await receitaDeTodosOsBancos();
+                          //int walker2 = await despesaDeTodosOsBancos();
+                          //int walker3 = walker + walker2;
+                          //print(walker3);
+                        }),
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _banco(BuildContext context, int index) {
+    TextEditingController banco = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: new Row(
+            children: [
+              new Container(
+                child: new Text("Banco"),
+              ),
+              Spacer(),
+              new Container(
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: banco,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.corporate_fare_outlined),
+                        hintText: 'Digite o nome',
+                        labelText: 'Banco',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                        child: const Text("Submit"),
+                        onPressed: () async {
+                          await salvarDadosBanco(banco.text);
+                          await listartransacoes();
+                        }),
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _despesa(BuildContext context, int index) {
     TextEditingController valor = TextEditingController();
     TextEditingController tipo = TextEditingController();
     TextEditingController banco = TextEditingController();
@@ -36,15 +184,14 @@ class ExampleExpandableFab extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-            insetPadding: const EdgeInsets.fromLTRB(30, 80, 30, 80),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Positioned(
-                  //controlando o botão de fechar do formulario
-                  right: -20.0,
-                  top: -20.0,
+          return SimpleDialog(
+            title: new Row(
+              children: [
+                new Container(
+                  child: new Text("Despesa"),
+                ),
+                Spacer(),
+                new Container(
                   child: InkResponse(
                     onTap: () {
                       Navigator.of(context).pop();
@@ -55,23 +202,25 @@ class ExampleExpandableFab extends StatelessWidget {
                     ),
                   ),
                 ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: valor,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.attach_money),
-                            hintText: 'Valor',
-                          ),
-                          // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
+              ],
+            ),
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: valor,
+                        keyboardType: TextInputType
+                            .number, //restringir o tipo de teclado do usuario: number, phone, text
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.money_off),
+                          hintText: 'Valor',
                         ),
+                        // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -83,7 +232,8 @@ class ExampleExpandableFab extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
+                    ),
+                    Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: banco,
@@ -94,27 +244,25 @@ class ExampleExpandableFab extends StatelessWidget {
                             hintText: 'Digite o código',
                             labelText: 'Banco',
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            child: const Text("Submit"),
-                            onPressed: () async {
-                              await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), tipo.text, transType);
-                              print("------ Listando Transacoes ------");
-                              await listartransacoes();
-                              print("------ Receita de Todos os Bancos ------");
-                              print(await receitaDeTodosOsBancos());
-                              print("------ Despesa de Todos os Bancos ------");
-                              print(await despesaDeTodosOsBanco());
-                            }),
-                      )
-                    ],
-                  ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                          child: const Text("Submit"),
+                          onPressed: () async {
+                            await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), tipo.text, true);
+                            print("------ Listando Transacoes ------");
+                            await listartransacoes();
+                            print("------ Receita de Todos os Bancos ------");
+                            print(await receitaDeTodosOsBancos());
+                            print("------ Despesa de Todos os Bancos ------");
+                            print(await despesaDeTodosOsBancos());
+                          }),
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         });
   }

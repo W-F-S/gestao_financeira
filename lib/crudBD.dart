@@ -5,12 +5,11 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 /// Metodo para criar o banco de dados e três tabelas.
-/// Tabela usuario -> nome, email e senha.
-/// Tabela bancos -> nome, id usuario.
-/// Tabela transações -> valor das transações, id usuario, id banco e tipo.
+/// Tabela bancos -> nome.
+/// Tabela transações -> valor das transações, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "newDataBase");
+  final localBancoDados = join(caminhoBancoDados, "newDB");
   var bd = await openDatabase(
       localBancoDados,
       version: 1,
@@ -95,7 +94,7 @@ Future<int> despesaDoBanco(int bancoId) async{
 }
 
 /// Metodo para recuperar despesas do usuario para todos os banco
-Future<int> despesaDeTodosOsBanco() async{
+Future<int> despesaDeTodosOsBancos() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0';");
 
@@ -104,5 +103,3 @@ Future<int> despesaDeTodosOsBanco() async{
   return receita[0]['SUM(value)'];
   //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
 }
-
-
