@@ -222,15 +222,14 @@ class ExampleExpandableFab extends StatelessWidget {
                         ),
                         // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        enabled: true,
-                        controller: tipo,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.article_outlined),
-                          hintText: 'Descrição',
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: tipo,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.article_outlined),
+                            hintText: 'Descrição',
+                          ),
                         ),
                       ),
                     ),

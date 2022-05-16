@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -76,7 +79,6 @@ Future<int> receitaDoBanco(int bancoId) async{
 Future<int> receitaDeTodosOsBancos() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type='0';");
-  //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
 
   return receita[0]['SUM(value)'];
   //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
@@ -96,6 +98,8 @@ Future<int> despesaDeTodosOsBancos() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0';");
 
+  //print("Despesas:\n");
+  //print(receita);
   return receita[0]['SUM(value)'];
   //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
 }
