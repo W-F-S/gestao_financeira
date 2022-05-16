@@ -1,3 +1,6 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -7,10 +10,10 @@ import 'package:path/path.dart';
 /// Tabela transações -> valor das transações, id usuario, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "bancoD");
+  final localBancoDados = join(caminhoBancoDados, "newDataBase");
   var bd = await openDatabase(
       localBancoDados,
-      version: 4,
+      version: 1,
       onCreate: (db, dbVersaoRecente){
         db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR); ");
         db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
@@ -32,6 +35,7 @@ salvarDadosBanco(String name) async{
 salvarDadosTransacao(int value, int bancoId, String type, bool despesa) async {
   Database bd = await recuperarBancoDados();
   if(despesa) value *= -1;
+  if(!despesa) type = '0';
   Map<String, dynamic> dadosTransacao = {
     "value" : value,
     "bancoId" : bancoId,
@@ -76,7 +80,6 @@ Future<int> receitaDoBanco(int bancoId) async{
 Future<int> receitaDeTodosOsBancos() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type='0';");
-  //não sei se o valor userId.toString transforma o 0 para um '0' ou "0", então caso der error tentar conserta ou checar essa possibilidade
 
   return receita[0]['SUM(value)'];
   //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
@@ -96,6 +99,8 @@ Future<int> despesaDeTodosOsBanco() async{
   Database bd = await recuperarBancoDados();
   List receita = await bd.rawQuery("SELECT SUM(value) FROM transacoes WHERE type!='0';");
 
+  //print("Despesas:\n");
+  //print(receita);
   return receita[0]['SUM(value)'];
   //coloquei o valor SUM(value) porque na criação da lista ele é o parametro mais provavel, se não der certo tenta com '0'
 }

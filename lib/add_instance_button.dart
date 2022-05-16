@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'crudBD.dart';
 
 class ExampleExpandableFab extends StatelessWidget {
-  static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
 
   const ExampleExpandableFab({Key? key}) : super(key: key);
 
@@ -77,7 +76,6 @@ class ExampleExpandableFab extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          enabled: false,
                           controller: tipo,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.article_outlined),
@@ -102,10 +100,14 @@ class ExampleExpandableFab extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                             child: const Text("Submit"),
-                            onPressed: () {
-                              salvarDadosTransacao(int.parse(valor.text),
-                                  int.parse(banco.text), tipo.text, transType);
-                              listartransacoes();
+                            onPressed: () async {
+                              await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), tipo.text, transType);
+                              print("------ Listando Transacoes ------");
+                              await listartransacoes();
+                              print("------ Receita de Todos os Bancos ------");
+                              print(await receitaDeTodosOsBancos());
+                              print("------ Despesa de Todos os Bancos ------");
+                              print(await despesaDeTodosOsBanco());
                             }),
                       )
                     ],

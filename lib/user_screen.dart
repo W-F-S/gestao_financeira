@@ -1,7 +1,6 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
-import 'crudBD.dart';
 
 class user_screen extends StatefulWidget {
   const user_screen({Key? key}) : super(key: key);
