@@ -221,7 +221,7 @@ class ExampleExpandableFab extends StatelessWidget {
                           hintText: 'Valor',
                         ),
                         // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
-                      ),
+                      )),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
@@ -232,7 +232,6 @@ class ExampleExpandableFab extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
