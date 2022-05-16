@@ -3,8 +3,6 @@ import 'dart:math' as math;
 import 'crudBD.dart';
 
 class ExampleExpandableFab extends StatelessWidget {
-  static const _actionTitles = ['Novo income', '???', 'Novo outcome'];
-
   const ExampleExpandableFab({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +11,7 @@ class ExampleExpandableFab extends StatelessWidget {
       distance: 110.0,
       children: [
         ActionButton(
-          onPressed: () => _inserir(context, 0),
+          onPressed: () => _receita(context, 0),
           icon: const Icon(Icons.attach_money, color: Colors.black),
         ),
         ActionButton(
@@ -29,84 +27,89 @@ class ExampleExpandableFab extends StatelessWidget {
   }
 
   //Método para o formulário de inserção no banco de dados
-  void _inserir(BuildContext context, int index) {
+  void _receita(BuildContext context, int index) {
     TextEditingController valor = TextEditingController();
     TextEditingController banco = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     showDialog(
-        context: context,
-        builder: (context) {
-          return 
-          SimpleDialog(                       
-            title: new Row(
-              children: [ 
-                new Container (
-                  child: new Text("Receita"),
-                ), 
-                Spacer(),
-                new Container(
-                  child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: new Row(
+            children: [
+              new Container(
+                child: new Text("Receita"),
+              ),
+              Spacer(),
+              new Container(
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
                   ),
                 ),
-              ],
-             ),  
-            children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: valor,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.attach_money),
-                            hintText: 'Valor',
-                          ),
-                        ),
+              ),
+            ],
+          ),
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: valor,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.attach_money),
+                        hintText: 'Valor',
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: banco,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.corporate_fare_outlined),
-                            hintText: 'Digite o código',
-                            labelText: 'Banco',
-                          ),
-                        ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: banco,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.corporate_fare_outlined),
+                        hintText: 'Digite o código',
+                        labelText: 'Banco',
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            child: const Text("Submit"),
-                            onPressed: () {
-                              salvarDadosTransacao(int.parse(valor.text),
-                                                   int.parse(banco.text), 
-                                                   "",
-                                                   true);
-                              listartransacoes();
-                            }
-                          ),
-                      )
-                    ],
+                    ),
                   ),
-                  ),
-              ],
-            );
-        }, 
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                        child: const Text("Submit"),
+                        onPressed: () async {
+                          await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), "", false);
+                          print("------ Listando Transacoes ------");
+                          await listartransacoes();
+                          print("------ Receita de Todos os Bancos ------");
+                          print(await receitaDeTodosOsBancos());
+                          print("------ Despesa de Todos os Bancos ------");
+                          print(await despesaDeTodosOsBancos());
+                          //print("\n\nSaldo Total:\n");
+                          //int walker = await receitaDeTodosOsBancos();
+                          //int walker2 = await despesaDeTodosOsBancos();
+                          //int walker3 = walker + walker2;
+                          //print(walker3);
+                        }),
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -114,66 +117,62 @@ class ExampleExpandableFab extends StatelessWidget {
     TextEditingController banco = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(                       
-            title: new Row(
-              children: [ 
-                new Container (
-                  child: new Text("Banco"),
-                ), 
-                
-                Spacer(),
-
-                new Container(
-                  child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: new Row(
+            children: [
+              new Container(
+                child: new Text("Banco"),
+              ),
+              Spacer(),
+              new Container(
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
                   ),
                 ),
-
-              ],
-             ),  
-            children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: banco,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.corporate_fare_outlined),
-                            hintText: 'Digite o nome',
-                            labelText: 'Banco',
-                          ),
-                        ),
+              ),
+            ],
+          ),
+          children: <Widget>[
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: banco,
+                      keyboardType: TextInputType
+                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.corporate_fare_outlined),
+                        hintText: 'Digite o nome',
+                        labelText: 'Banco',
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            child: const Text("Submit"),
-                            onPressed: () {
-                              salvarDadosBanco(banco.text);        
-                              listartransacoes();
-                          }
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            );
-        }, 
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                        child: const Text("Submit"),
+                        onPressed: () async {
+                          await salvarDadosBanco(banco.text);
+                          await listartransacoes();
+                        }),
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -185,60 +184,57 @@ class ExampleExpandableFab extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return SimpleDialog(                       
+          return SimpleDialog(
             title: new Row(
-              children: [ 
-                new Container (
+              children: [
+                new Container(
                   child: new Text("Despesa"),
-                ), 
-                
+                ),
                 Spacer(),
-
                 new Container(
                   child: InkResponse(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const CircleAvatar(
-                        child: Icon(Icons.close),
-                        backgroundColor: Colors.red,
-                      ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
                   ),
                 ),
-
               ],
-             ),
+            ),
             children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: valor,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.money_off),
-                            hintText: 'Valor',
-                          ),
-                          // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: valor,
+                        keyboardType: TextInputType
+                            .number, //restringir o tipo de teclado do usuario: number, phone, text
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.money_off),
+                          hintText: 'Valor',
+                        ),
+                        // inputFormatters: [FilteringTextInputFormatter.digitsOnly], //restringir o user de digitar qualquer coisa além de números
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        enabled: true,
+                        controller: tipo,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.article_outlined),
+                          hintText: 'Descrição',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          enabled: true,
-                          controller: tipo,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.article_outlined),
-                            hintText: 'Descrição',
-                          ),
-                        ),
-                      ),
-                      Padding(
+                    ),
+                    Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: banco,
@@ -249,28 +245,25 @@ class ExampleExpandableFab extends StatelessWidget {
                             hintText: 'Digite o código',
                             labelText: 'Banco',
                           ),
-                        )
-
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            child: const Text("Submit"),
-                            onPressed: () {
-                              salvarDadosTransacao(int.parse(valor.text),
-                                  int.parse(banco.text),
-                                  tipo.text, 
-                                  true);
-                              listartransacoes();
-                            }
-                        ),
-                      )
-                   ],
-                  ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RaisedButton(
+                          child: const Text("Submit"),
+                          onPressed: () async {
+                            await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), tipo.text, true);
+                            print("------ Listando Transacoes ------");
+                            await listartransacoes();
+                            print("------ Receita de Todos os Bancos ------");
+                            print(await receitaDeTodosOsBancos());
+                            print("------ Despesa de Todos os Bancos ------");
+                            print(await despesaDeTodosOsBancos());
+                          }),
+                    )
+                  ],
                 ),
-                
-                ],
-
+              ),
+            ],
           );
         });
   }
