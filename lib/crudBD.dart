@@ -15,7 +15,7 @@ recuperarBancoDados() async {
       version: 1,
       onCreate: (db, dbVersaoRecente){
         db.execute("CREATE TABLE IF NOT EXISTS cadBancos (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR); ");
-        db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT, value INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
+        db.execute("CREATE TABLE IF NOT EXISTS transacoes (id INTEGER PRIMARY KEY AUTOINCREMENT,date VARCHAR, value INTEGER NOT NULL, bancoId INTEGER NOT NULL, type VARCHAR, FOREIGN KEY(bancoId) REFERENCES cadBancos(id)); ");
       }
   );
   return bd;
@@ -38,6 +38,7 @@ salvarDadosTransacao(int value, int bancoId, String type, bool despesa) async {
   Map<String, dynamic> dadosTransacao = {
     "value" : value,
     "bancoId" : bancoId,
+    "date" : DateTime.now().toString(),
     "type": type
   };
   bd.insert("transacoes", dadosTransacao);
