@@ -20,7 +20,7 @@ class _CenterScreen extends State<CenterScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    color: Colors.white,
+                    color: Colors.red,
                   ),
                 ),
                 Expanded(
@@ -40,22 +40,22 @@ class _CenterScreen extends State<CenterScreen> {
                                       child: Material(
                                           color: Colors.white,
                                           child: InkWell(
-                                            splashColor: Colors.green,
+                                            splashColor: Colors.green[700],
                                             onTap: () {},
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: const <Widget>[
+                                              children: <Widget>[
                                                 Icon(
                                                   Icons.monetization_on_sharp,
                                                   size: 35,
-                                                  color: Colors.green,
+                                                  color: Colors.green[700],
                                                 ),
                                                 Text(
-                                                  "Receita",
+                                                  "Receitas",
                                                   style: TextStyle(
                                                       fontSize: 20,
-                                                      color: Colors.green,
+                                                      color: Colors.green[700],
                                                       fontFamily: 'Raleway'),
                                                 ),
                                               ],
@@ -75,22 +75,22 @@ class _CenterScreen extends State<CenterScreen> {
                                     child: Material(
                                         color: Colors.white,
                                         child: InkWell(
-                                          splashColor: Colors.red,
+                                          splashColor: Colors.red[700],
                                           onTap: () {},
                                           child: Column(
                                             mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                            children: const <Widget>[
+                                            children: <Widget>[
                                               Icon(
                                                 Icons.money_off_sharp,
                                                 size: 35,
-                                                color: Colors.red,
+                                                color: Colors.red[700],
                                               ),
                                               Text(
                                                 "Despesas",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    color: Colors.red,
+                                                    color: Colors.red[700],
                                                     fontFamily: 'Raleway'),
                                               ),
                                             ],
@@ -114,6 +114,10 @@ class _CenterScreen extends State<CenterScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0)
+                ),
               ),
             ),
           )

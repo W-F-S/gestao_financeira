@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'crudBD.dart';
 
-class ExampleExpandableFab extends StatelessWidget {
-  const ExampleExpandableFab({Key? key}) : super(key: key);
+class AddInstanceButton extends StatelessWidget {
+  const AddInstanceButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,15 +12,15 @@ class ExampleExpandableFab extends StatelessWidget {
       children: [
         ActionButton(
           onPressed: () => _receita(context, 0),
-          icon: const Icon(Icons.attach_money, color: Colors.black),
+          icon: const Icon(Icons.attach_money_sharp, color: Colors.black),
         ),
         ActionButton(
           onPressed: () => _banco(context, 1),
-          icon: const Icon(Icons.corporate_fare_outlined, color: Colors.black),
+          icon: const Icon(Icons.corporate_fare_sharp, color: Colors.black),
         ),
         ActionButton(
           onPressed: () => _despesa(context, 2),
-          icon: const Icon(Icons.money_off, color: Colors.black),
+          icon: const Icon(Icons.money_off_sharp, color: Colors.black),
         ),
       ],
     );
@@ -35,21 +35,17 @@ class ExampleExpandableFab extends StatelessWidget {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: new Row(
+          title: Row(
             children: [
-              new Container(
-                child: new Text("Receita"),
-              ),
-              Spacer(),
-              new Container(
-                child: InkResponse(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const CircleAvatar(
-                    child: Icon(Icons.close),
-                    backgroundColor: Colors.red,
-                  ),
+              const Text("Receita"),
+              const Spacer(),
+              InkResponse(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: const CircleAvatar(
+                  child: Icon(Icons.close),
+                  backgroundColor: Colors.red,
                 ),
               ),
             ],
@@ -64,8 +60,7 @@ class ExampleExpandableFab extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: valor,
-                      keyboardType: TextInputType
-                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
                       decoration: const InputDecoration(
                         icon: Icon(Icons.attach_money),
                         hintText: 'Valor',
@@ -120,21 +115,17 @@ class ExampleExpandableFab extends StatelessWidget {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: new Row(
+          title: Row(
             children: [
-              new Container(
-                child: new Text("Banco"),
-              ),
-              Spacer(),
-              new Container(
-                child: InkResponse(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const CircleAvatar(
-                    child: Icon(Icons.close),
-                    backgroundColor: Colors.red,
-                  ),
+              const Text("Banco"),
+              const Spacer(),
+              InkResponse(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: const CircleAvatar(
+                  child: Icon(Icons.close),
+                  backgroundColor: Colors.red,
                 ),
               ),
             ],
@@ -149,8 +140,7 @@ class ExampleExpandableFab extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: banco,
-                      keyboardType: TextInputType
-                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
                       decoration: const InputDecoration(
                         icon: Icon(Icons.corporate_fare_outlined),
                         hintText: 'Digite o nome',
@@ -185,21 +175,17 @@ class ExampleExpandableFab extends StatelessWidget {
         context: context,
         builder: (context) {
           return SimpleDialog(
-            title: new Row(
+            title: Row(
               children: [
-                new Container(
-                  child: new Text("Despesa"),
-                ),
-                Spacer(),
-                new Container(
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
+                const Text("Despesa"),
+                const Spacer(),
+                InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
                   ),
                 ),
               ],
@@ -214,8 +200,7 @@ class ExampleExpandableFab extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: valor,
-                        keyboardType: TextInputType
-                            .number, //restringir o tipo de teclado do usuario: number, phone, text
+                        keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
                         decoration: const InputDecoration(
                           icon: Icon(Icons.money_off),
                           hintText: 'Valor',
@@ -236,8 +221,7 @@ class ExampleExpandableFab extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: banco,
-                          keyboardType: TextInputType
-                              .number, //restringir o tipo de teclado do usuario: number, phone, text
+                          keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
                           decoration: const InputDecoration(
                             icon: Icon(Icons.corporate_fare_outlined),
                             hintText: 'Digite o código',
@@ -328,7 +312,7 @@ class _ExpandableFabState extends State<ExpandableFab>
     return SizedBox.expand(
       child: Stack(
         alignment:
-            Alignment.bottomCenter, //controla a posicao do botao de expansao.
+        Alignment.bottomCenter, //controla a posicao do botao de expansao.
         clipBehavior: Clip.none,
         children: [
           _buildTapToCloseFab(),
@@ -350,11 +334,11 @@ class _ExpandableFabState extends State<ExpandableFab>
           elevation: 4.0,
           child: InkWell(
             onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.close,
-                color: Theme.of(context).primaryColor,
+                color: Colors.red,
               ),
             ),
           ),
@@ -367,9 +351,7 @@ class _ExpandableFabState extends State<ExpandableFab>
     final children = <Widget>[];
     final count = widget.children.length;
     final step = 90.0 / (count - 1); //espaçamento entre os children
-    for (var i = 0,
-            angleInDegrees =
-                45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
+    for (var i = 0, angleInDegrees = 45.0; //muda o angulo dos children. '90' inverterá as posiçoes '45' deixará eles na horizontal
         i < count;
         i++, angleInDegrees += step) {
       children.add(
@@ -403,7 +385,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           child: FloatingActionButton(
             onPressed: _toggle,
             child: const Icon(Icons.add_circle_outlined),
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.lightBlue[400],
           ),
         ),
       ),
@@ -431,22 +413,15 @@ class _ExpandingActionButton extends StatelessWidget {
       animation: progress,
       builder: (context, child) {
         final offset = Offset.fromDirection(
-          directionInDegrees *
-              (math.pi / 180.0), //controla o espaçamento entre botões (???)
+          directionInDegrees * (math.pi / 180.0), //controla o espaçamento entre botões (???)
           progress.value * maxDistance,
         );
         return Positioned(
-          right: (MediaQuery.of(context).size.width / 2) -
-              24 +
-              offset
-                  .dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
+          right: (MediaQuery.of(context).size.width / 2) - 24 + offset.dx, //controla a posição x dos filhos do botao de expansão, coloque left, right ou width
           //com esse offset.dx podemos controlar a posicao dos childs. coloque ele negativo e os childs vão inverter
-          bottom: -10.0 +
-              offset.dy, //controla a posição y dos filhos do botao de expansão,
+          bottom: -10.0 + offset.dy, //controla a posição y dos filhos do botao de expansão,
           child: Transform.rotate(
-            angle: (1.0 - progress.value) *
-                math.pi /
-                1, //controla o angulo dos icones dos childs
+            angle: (1.0 - progress.value) * math.pi / 1, //controla o angulo dos icones dos childs
             child: child!,
           ),
         );
