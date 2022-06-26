@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 /// Tabela transações -> valor das transações, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "newDB2");
+  final localBancoDados = join(caminhoBancoDados, "newDB13");
   var bd = await openDatabase(
       localBancoDados,
       version: 1,
@@ -54,6 +54,17 @@ listarBancos() async{
   }
 }
 
+/// Verificar se existem receitas na tabela.
+Future<bool> temReceita() async{
+
+  Database bd = await recuperarBancoDados();
+  List receita = await bd.rawQuery("SELECT count(*) FROM transacoes");
+
+  if((receita[0]['count(*)']) == 0) return false;
+
+  return true;
+}
+
 List<Widget> receitas = [];
 
 /// Listar transações feitas no sistema *metodo apenas para testes*
@@ -69,8 +80,12 @@ listartransacoes() async{
 
   receitas.clear();
 
-  for(var usu in userData) {
+  if(await temReceita()) {
+    for(var usu in userData) {
       receitas.add(receitaWidget(usu['value'].toString(), usu[('bancoId')].toString(), usu[('type')]));
+    }
+  } else {
+    receitas.add(nullReceitaWidget());
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'crudBD.dart';
 import 'despesas.dart';
 import 'receita.dart';
 
@@ -88,7 +89,9 @@ class _CenterScreen extends State<CenterScreen> {
                                           color: Colors.white,
                                           child: InkWell(
                                             splashColor: Colors.green[700],
-                                            onTap: () {
+                                            onTap: () async {
+                                              await listartransacoes();
+                                              if (!mounted) return;
                                               Navigator.push(context,
                                                   MaterialPageRoute(builder: (context) => const receita()));
                                             },

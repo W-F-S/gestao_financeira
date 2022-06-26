@@ -87,8 +87,6 @@ class AddInstanceButton extends StatelessWidget {
                         child: const Text("Submit"),
                         onPressed: () async {
                           await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), "", false);
-                          print("------ Listando Transacoes ------");
-                          await listartransacoes();
                           print("------ Receita de Todos os Bancos ------");
                           print(await receitaDeTodosOsBancos());
                           print("------ Despesa de Todos os Bancos ------");

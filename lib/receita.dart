@@ -12,7 +12,7 @@ class receita extends StatefulWidget {
 
 class Receita extends State<receita> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Receita"),
