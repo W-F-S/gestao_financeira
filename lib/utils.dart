@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user_screen.dart';
+import 'lembrete.dart';
 
 /// Função que estiliza o Drawer do menu principal,
 /// Estilizar cores e adicionar funcionalidades posteriormente.
@@ -8,11 +9,11 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Drawer (
         child: ListView(
         padding: EdgeInsets.zero,
-        children: const <Widget>[
-        DrawerHeader(
+        children: <Widget>[
+        const DrawerHeader(
           decoration: BoxDecoration(
             color: Colors.blue,
           ),
@@ -25,14 +26,21 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
         ),
         ListTile(
-          leading: Icon(Icons.access_time_filled_sharp),
-          title: Text('Funcionalidade 1'),
+          leading: TextButton.icon(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const lembrete()));
+            },
+            style: TextButton.styleFrom(textStyle: const TextStyle(fontSize: 25, fontFamily: 'Times'),),
+            icon: const Icon(Icons.alarm_add_sharp, size: 40.0,),
+            label: const Text('Lembrete!'),
+          ),
         ),
-        ListTile(
+        const ListTile(
           leading: Icon(Icons.access_time_filled_sharp),
           title: Text('Funcionalidade 2'),
         ),
-        ListTile(
+        const ListTile(
           leading: Icon(Icons.access_time_filled_sharp),
           title: Text('Funcionalidade 3'),
         ),
