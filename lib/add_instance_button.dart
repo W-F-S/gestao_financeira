@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'crudBD.dart';
+import 'receita.dart';
 
 class AddInstanceButton extends StatelessWidget {
   const AddInstanceButton({Key? key}) : super(key: key);

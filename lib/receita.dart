@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'crudBD.dart';
 
 class receita extends StatefulWidget {
   const receita({Key? key}) : super(key: key);
@@ -16,8 +17,14 @@ class Receita extends State<receita> {
       appBar: AppBar(
         title: const Text("Receita"),
       ),
-      body: Container(
-        width: double.infinity,
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: ListView.builder(
+            itemCount: receitas.length,
+            itemBuilder: (context,index){
+              return receitas[index];
+            }),
       ),
     );
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
+import 'package:gestor_financeiro/widgetUtils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -9,7 +10,7 @@ import 'package:path/path.dart';
 /// Tabela transações -> valor das transações, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "newDB");
+  final localBancoDados = join(caminhoBancoDados, "newDB2");
   var bd = await openDatabase(
       localBancoDados,
       version: 1,
@@ -53,6 +54,8 @@ listarBancos() async{
   }
 }
 
+List<Widget> receitas = [];
+
 /// Listar transações feitas no sistema *metodo apenas para testes*
 listartransacoes() async{
   Database bd = await recuperarBancoDados();
@@ -62,6 +65,12 @@ listartransacoes() async{
         " value: "+usu['value'].toString()+
         " bancoId: "+usu['bancoId'].toString()+
         " type: "+usu['type']);
+  }
+
+  receitas.clear();
+
+  for(var usu in userData) {
+      receitas.add(receitaWidget(usu['value'].toString(), usu[('bancoId')].toString(), usu[('type')]));
   }
 }
 
