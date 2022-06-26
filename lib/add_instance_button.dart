@@ -123,8 +123,8 @@ class AddInstanceButton extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 child: const CircleAvatar(
-                  child: Icon(Icons.close),
                   backgroundColor: Colors.red,
+                  child: Icon(Icons.close),
                 ),
               ),
             ],
@@ -153,6 +153,7 @@ class AddInstanceButton extends StatelessWidget {
                         child: const Text("Submit"),
                         onPressed: () async {
                           await salvarDadosBanco(banco.text);
+                          await listarBancos();
                           await listartransacoes();
                         }),
                   )
@@ -183,8 +184,8 @@ class AddInstanceButton extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: const CircleAvatar(
-                    child: Icon(Icons.close),
                     backgroundColor: Colors.red,
+                    child: Icon(Icons.close),
                   ),
                 ),
               ],
@@ -383,8 +384,8 @@ class _ExpandableFabState extends State<ExpandableFab>
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            child: const Icon(Icons.add_circle_outlined),
             backgroundColor: Colors.lightBlue[400],
+            child: const Icon(Icons.add_circle_outlined),
           ),
         ),
       ),

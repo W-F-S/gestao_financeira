@@ -4,13 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:gestor_financeiro/widgetUtils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:intl/intl.dart';
 
 /// Metodo para criar o banco de dados e três tabelas.
 /// Tabela bancos -> nome.
 /// Tabela transações -> valor das transações, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "newDB13");
+  final localBancoDados = join(caminhoBancoDados, "newDB27");
   var bd = await openDatabase(
       localBancoDados,
       version: 1,
@@ -39,10 +40,34 @@ salvarDadosTransacao(int value, int bancoId, String type, bool despesa) async {
   Map<String, dynamic> dadosTransacao = {
     "value" : value,
     "bancoId" : bancoId,
+    //"date" : DateTime.now().toString(),
+    "date" : (DateFormat('dd-MM-yyyy').format(DateTime.now())).toString(),
     "type": type
   };
   bd.insert("transacoes", dadosTransacao);
 }
+
+Future<bool> temBanco() async{
+
+  Database bd = await recuperarBancoDados();
+  List receita = await bd.rawQuery("SELECT count(*) FROM cadBancos");
+
+  if((receita[0]['count(*)']) == 0) return false;
+
+  return true;
+}
+
+Future<bool> temBancoNome(String name) async{
+
+  Database bd = await recuperarBancoDados();
+  List receita = await bd.rawQuery("SELECT count(*) FROM cadBancos WHERE name="+name+";");
+
+  if((receita[0]['count(*)']) == 0) return false;
+
+  return true;
+}
+
+List<Widget> bancos = [];
 
 /// Listar bancos presentes no sistema *metodo apenas para testes*
 listarBancos() async{
@@ -52,40 +77,88 @@ listarBancos() async{
     print(" id: "+usu['id'].toString() +
         " name: "+usu['name']);
   }
+
+  bancos.clear();
+
+  if(await temBanco()) {
+    for(var usu in userData) {
+      print("Entrei if bancos");
+      bancos.add(bancoWidget(usu['id'].toString(), usu['name'].toString()));
+    }
+  }
 }
 
 /// Verificar se existem receitas na tabela.
 Future<bool> temReceita() async{
 
   Database bd = await recuperarBancoDados();
-  List receita = await bd.rawQuery("SELECT count(*) FROM transacoes");
+  List receita = await bd.rawQuery("SELECT count(*) FROM transacoes WHERE type='0';");
 
   if((receita[0]['count(*)']) == 0) return false;
 
   return true;
 }
 
+Future<bool> temDespesa() async{
+
+  Database bd = await recuperarBancoDados();
+  List receita = await bd.rawQuery("SELECT count(*) FROM transacoes WHERE type!='0';");
+
+  if((receita[0]['count(*)']) == 0) return false;
+
+  return true;
+}
+
+removerBanco(String id) async{
+
+  Database bd = await recuperarBancoDados();
+  bd.rawQuery("DELETE FROM cadBancos WHERE id="+id+";");
+}
+
+removerReceita(String id) async{
+
+  Database bd = await recuperarBancoDados();
+  bd.rawQuery("DELETE FROM transacoes WHERE type='0' AND id="+id+";");
+}
+
+removerDespesa(String id) async{
+
+  Database bd = await recuperarBancoDados();
+  bd.rawQuery("DELETE FROM transacoes WHERE type!='0' AND id="+id+";");
+}
+
 List<Widget> receitas = [];
+List<Widget> despesas = [];
 
 /// Listar transações feitas no sistema *metodo apenas para testes*
 listartransacoes() async{
   Database bd = await recuperarBancoDados();
   List userData = await bd.rawQuery("SELECT * FROM transacoes"); //conseguimos escrever a query que quisermos
-  for(var usu in userData){
-    print(" id: "+usu['id'].toString() +
-        " value: "+usu['value'].toString()+
-        " bancoId: "+usu['bancoId'].toString()+
-        " type: "+usu['type']);
+  for(var usu in userData) {
+    print(" id: " + usu['id'].toString() +
+        " value: " + usu['value'].toString() +
+        " date: " + usu['date'].toString() +
+        " bancoId: " + usu['bancoId'].toString() +
+        " type: " + usu['type']);
   }
 
   receitas.clear();
+  despesas.clear();
 
   if(await temReceita()) {
     for(var usu in userData) {
-      receitas.add(receitaWidget(usu['value'].toString(), usu[('bancoId')].toString(), usu[('type')]));
+      if(usu['value'] > 0) {
+          receitas.add(receitaWidget(usu['id'].toString(), usu['value'].toString(), usu[('bancoId')].toString(), usu[('date')]));
+      }
     }
-  } else {
-    receitas.add(nullReceitaWidget());
+  }
+
+  if(await temDespesa()) {
+    for(var usu in userData) {
+      if(usu['value'] < 0) {
+        despesas.add(despesaWidget(usu['id'].toString(), usu['value'].toString(), usu[('bancoId')].toString(), usu[('type')] , usu[('date')]));
+      }
+    }
   }
 }
 

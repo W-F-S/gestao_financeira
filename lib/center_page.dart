@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestor_financeiro/widgetUtils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'crudBD.dart';
 import 'despesas.dart';
@@ -12,6 +13,10 @@ class CenterScreen extends StatefulWidget {
 }
 
 class _CenterScreen extends State<CenterScreen> {
+  @override
+  void setState() {
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,8 +97,24 @@ class _CenterScreen extends State<CenterScreen> {
                                             onTap: () async {
                                               await listartransacoes();
                                               if (!mounted) return;
-                                              Navigator.push(context,
+                                              if(await temReceita()) {
+                                                Navigator.push(context,
                                                   MaterialPageRoute(builder: (context) => const receita()));
+                                              } else {
+                                                showDialog<String>(
+                                                  context: context,
+                                                  builder: (BuildContext context) => AlertDialog(
+                                                    title: const Text('Você ainda não tem receitas adicionadas.'),
+                                                    content: const Text('Adicione uma receita no botão inferior.'),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        onPressed: () => Navigator.pop(context, 'OK'),
+                                                        child: const Text('OK'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
                                             },
                                             child: Column(
                                               mainAxisAlignment:
@@ -129,9 +150,27 @@ class _CenterScreen extends State<CenterScreen> {
                                         color: Colors.white,
                                         child: InkWell(
                                           splashColor: Colors.red[700],
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(builder: (context) => const despesas()));
+                                          onTap: () async {
+                                            await listartransacoes();
+                                            if (!mounted) return;
+                                            if(await temDespesa()) {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(builder: (context) => const despesa()));
+                                            } else {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder: (BuildContext context) => AlertDialog(
+                                                  title: const Text('Você ainda não tem despesas adicionadas.'),
+                                                  content: const Text('Adicione uma despesa no botão inferior.'),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () => Navigator.pop(context, 'OK'),
+                                                      child: const Text('OK'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -175,6 +214,11 @@ class _CenterScreen extends State<CenterScreen> {
                   topRight: Radius.circular(30.0)
                 ),
               ),
+              child: ListView.builder(
+                  itemCount: bancos.length,
+                  itemBuilder: (context,index){
+                    return bancos[index];
+                  }),
             ),
           )
         ],

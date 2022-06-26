@@ -18,8 +18,6 @@ class Receita extends State<receita> {
         title: const Text("Receita"),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: ListView.builder(
             itemCount: receitas.length,
             itemBuilder: (context,index){
