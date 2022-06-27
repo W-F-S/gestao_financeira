@@ -125,16 +125,6 @@ Widget bancoWidget(String id, String nome) {
             color: Colors.grey[700],
           ),
         ),
-        trailing: IconButton(
-          onPressed: () {
-            removerBanco(id);
-            despesas.removeWhere((id) => true);
-          },
-          icon: const Icon(
-            Icons.delete_forever,
-            size: 40,
-          ),
-        ),
       ),
     ),
   );

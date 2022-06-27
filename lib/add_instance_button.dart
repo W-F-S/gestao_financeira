@@ -73,11 +73,10 @@ class AddInstanceButton extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: banco,
-                      keyboardType: TextInputType
-                          .number, //restringir o tipo de teclado do usuario: number, phone, text
+                      keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         icon: Icon(Icons.corporate_fare_outlined),
-                        hintText: 'Digite o código',
+                        hintText: 'Digite o nome',
                         labelText: 'Banco',
                       ),
                     ),
@@ -90,8 +89,6 @@ class AddInstanceButton extends StatelessWidget {
                           await salvarDadosTransacao(int.parse(valor.text), int.parse(banco.text), "", false);
                           print("------ Receita de Todos os Bancos ------");
                           print(await receitaDeTodosOsBancos());
-                          print("------ Despesa de Todos os Bancos ------");
-                          print(await despesaDeTodosOsBancos());
                           //print("\n\nSaldo Total:\n");
                           //int walker = await receitaDeTodosOsBancos();
                           //int walker2 = await despesaDeTodosOsBancos();
@@ -140,7 +137,7 @@ class AddInstanceButton extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       controller: banco,
-                      keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
+                      keyboardType: TextInputType.text, //restringir o tipo de teclado do usuario: number, phone, text
                       decoration: const InputDecoration(
                         icon: Icon(Icons.corporate_fare_outlined),
                         hintText: 'Digite o nome',
@@ -223,10 +220,10 @@ class AddInstanceButton extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: banco,
-                          keyboardType: TextInputType.number, //restringir o tipo de teclado do usuario: number, phone, text
+                          keyboardType: TextInputType.text,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.corporate_fare_outlined),
-                            hintText: 'Digite o código',
+                            hintText: 'Digite o nome',
                             labelText: 'Banco',
                           ),
                         )),

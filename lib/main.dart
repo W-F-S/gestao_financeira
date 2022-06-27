@@ -5,7 +5,7 @@ import 'utils.dart';
 import 'add_instance_button.dart';
 
 void main() {
-  runApp(const MaterialApp(home: MyApp()));
+  runApp(const MaterialApp(home: MyApp(), debugShowCheckedModeBanner: false,));
 }
 
 /// Função que roda a home na main, esse widget deve ser stateful já que
