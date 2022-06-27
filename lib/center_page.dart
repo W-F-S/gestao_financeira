@@ -5,22 +5,25 @@ import 'crudBD.dart';
 import 'despesas.dart';
 import 'receita.dart';
 
-class CenterScreen extends StatefulWidget {
-  const CenterScreen({Key? key}) : super(key: key);
+class centerScreen extends StatefulWidget {
+  const centerScreen({Key? key}) : super(key: key);
 
   @override
-  _CenterScreen createState() => _CenterScreen();
+  CenterScreen createState() => CenterScreen();
 }
 
-class _CenterScreen extends State<CenterScreen> {
+class CenterScreen extends State<centerScreen> {
+
   @override
-  void setState() {
-    
+  initState() {
+    listarBancos();
+    super.initState();
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.lightGreenAccent,
       body: Column(
         children: [
           Expanded(
@@ -31,10 +34,11 @@ class _CenterScreen extends State<CenterScreen> {
                     child: SfRadialGauge(
                       title: const GaugeTitle(
                           text: 'Saúde Financeira',
-                          backgroundColor: Colors.lightBlueAccent,
+                          backgroundColor: Colors.lightGreenAccent,
                           textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: Colors.black, fontFamily: 'Times'),
                           alignment: GaugeAlignment.center),
-                      backgroundColor: Colors.lightBlueAccent,
+                      backgroundColor: Colors.lightGreenAccent,
+                      enableLoadingAnimation: true,
                       axes:<RadialAxis>[
                         RadialAxis(
                             showLabels: false,
@@ -70,7 +74,12 @@ class _CenterScreen extends State<CenterScreen> {
                                   endWidth: 10
                               )
                             ],
-                          pointers: const <GaugePointer>[NeedlePointer(value: 20, needleLength: 0.5,),
+                          pointers: const <GaugePointer>[NeedlePointer(
+                            value: 20,
+                            needleLength: 0.5,
+                            enableAnimation: true,
+                            animationDuration: 4000,
+                          ),
                         ]
                         )
                       ],

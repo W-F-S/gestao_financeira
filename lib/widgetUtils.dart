@@ -35,10 +35,13 @@ Widget receitaWidget(String id, String x, String y, String date) {
         ),
         trailing: IconButton(
           onPressed: () {
-              removerReceita(id);
-              receitas.removeWhere((id) => true);
-            },
-          icon: const Icon(Icons.delete_forever, size: 40,),
+            removerReceita(id);
+            receitas.removeWhere((id) => true);
+          },
+          icon: const Icon(
+            Icons.delete_forever,
+            size: 40,
+          ),
         ),
       ),
     ),
@@ -78,10 +81,13 @@ Widget despesaWidget(String id, String x, String y, String z, String date) {
         ),
         trailing: IconButton(
           onPressed: () {
-              removerDespesa(id);
-              despesas.removeWhere((id) => true);
-            },
-          icon: const Icon(Icons.delete_forever, size: 40,),
+            removerDespesa(id);
+            despesas.removeWhere((id) => true);
+          },
+          icon: const Icon(
+            Icons.delete_forever,
+            size: 40,
+          ),
         ),
       ),
     ),
@@ -121,10 +127,13 @@ Widget bancoWidget(String id, String nome) {
         ),
         trailing: IconButton(
           onPressed: () {
-            removerDespesa(id);
+            removerBanco(id);
             despesas.removeWhere((id) => true);
           },
-          icon: const Icon(Icons.delete_forever, size: 40,),
+          icon: const Icon(
+            Icons.delete_forever,
+            size: 40,
+          ),
         ),
       ),
     ),

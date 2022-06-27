@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'user_screen.dart';
 import 'lembrete.dart';
 
 /// Função que estiliza o Drawer do menu principal,
@@ -15,13 +14,13 @@ class NavigationDrawerWidget extends StatelessWidget {
         children: <Widget>[
         const DrawerHeader(
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.lightGreenAccent,
           ),
           child: Text(
             'Menu',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
+              color: Colors.lightBlueAccent,
+              fontSize: 35,
             ),
           ),
         ),
@@ -32,17 +31,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const lembrete()));
             },
             style: TextButton.styleFrom(textStyle: const TextStyle(fontSize: 25, fontFamily: 'Times'),),
-            icon: const Icon(Icons.alarm_add_sharp, size: 40.0,),
-            label: const Text('Lembrete!'),
+            icon: const Icon(Icons.analytics_sharp, size: 40.0,),
+            label: const Text('Análise Receitas'),
           ),
-        ),
-        const ListTile(
-          leading: Icon(Icons.access_time_filled_sharp),
-          title: Text('Funcionalidade 2'),
-        ),
-        const ListTile(
-          leading: Icon(Icons.access_time_filled_sharp),
-          title: Text('Funcionalidade 3'),
         ),
       ],
     ));
@@ -57,6 +48,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.lightGreenAccent,
       leading: Builder(
         builder: (context) => IconButton(
           icon: const Icon(Icons.menu_rounded),
@@ -65,17 +57,6 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const user_screen()));
-          },
-          icon: const Icon(Icons.account_circle_sharp),
-          color: Colors.black,
-          iconSize: 35,
-        ),
-      ],
     );
   }
 

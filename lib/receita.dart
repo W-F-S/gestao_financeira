@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'crudBD.dart';
+import 'despesas.dart';
 
 class receita extends StatefulWidget {
   const receita({Key? key}) : super(key: key);

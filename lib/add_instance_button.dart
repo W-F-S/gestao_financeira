@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'center_page.dart';
 import 'crudBD.dart';
 import 'receita.dart';
 
@@ -154,6 +155,7 @@ class AddInstanceButton extends StatelessWidget {
                         onPressed: () async {
                           await salvarDadosBanco(banco.text);
                           await listarBancos();
+                          CenterScreen().initState();
                           await listartransacoes();
                         }),
                   )
@@ -384,7 +386,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            backgroundColor: Colors.lightBlue[400],
+            backgroundColor: Colors.lightGreenAccent,
             child: const Icon(Icons.add_circle_outlined),
           ),
         ),

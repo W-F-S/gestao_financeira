@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 /// Tabela transações -> valor das transações, id banco e tipo.
 recuperarBancoDados() async {
   final caminhoBancoDados = await getDatabasesPath();
-  final localBancoDados = join(caminhoBancoDados, "newDB27");
+  final localBancoDados = join(caminhoBancoDados, "DBnew5");
   var bd = await openDatabase(
       localBancoDados,
       version: 1,
@@ -82,7 +82,6 @@ listarBancos() async{
 
   if(await temBanco()) {
     for(var usu in userData) {
-      print("Entrei if bancos");
       bancos.add(bancoWidget(usu['id'].toString(), usu['name'].toString()));
     }
   }

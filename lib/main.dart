@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'center_page.dart';
+import 'crudBD.dart';
 import 'utils.dart';
 import 'add_instance_button.dart';
 
@@ -18,12 +19,19 @@ class MyApp extends StatefulWidget {
 
 // Página Inicial, appbar, menu, user, bottombar.
 class HomePage extends State<MyApp> {
+
+  @override
+  initState() {
+    listarBancos();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       drawer: NavigationDrawerWidget(), // função que chama o drawer estilizado.
       appBar: DefaultAppBar(), // função que chama a appBar estilizada.
-      body: CenterScreen(), // função que retorna o pageview e as páginas listadas
+      body: centerScreen(), // função que retorna o pageview e as páginas listadas
       floatingActionButton: AddInstanceButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
